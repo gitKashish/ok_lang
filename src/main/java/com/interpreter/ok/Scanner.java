@@ -3,7 +3,9 @@ package com.interpreter.ok;
 import static com.interpreter.ok.TokenType.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Scanner {
     private final String source;
@@ -11,6 +13,27 @@ public class Scanner {
     private int start = 0;
     private int current = 0;
     private int line = 1;
+
+    private static final Map<String, TokenType> keywords;
+    static {
+        keywords = new HashMap<>();
+        keywords.put("and", AND);
+        keywords.put("class", CLASS);
+        keywords.put("else", ELSE);
+        keywords.put("false", FALSE);
+        keywords.put("for", FOR);
+        keywords.put("fun", FUN);
+        keywords.put("if", IF);
+        keywords.put("nil", NIL);
+        keywords.put("or", OR);
+        keywords.put("print", PRINT);
+        keywords.put("return", RETURN);
+        keywords.put("super", SUPER);
+        keywords.put("this", THIS);
+        keywords.put("true", TRUE);
+        keywords.put("var", VAR);
+        keywords.put("while", WHILE);
+    }
 
     Scanner(String source) {
         this.source = source;
@@ -86,19 +109,89 @@ public class Scanner {
             case '\n':
                 line++;
                 break;
-            // TODO: String Literals
-            // TODO: Number LIterals
-            // TODO: Reserved words & Keywords
+            case '"':
+                string();
+                break;
             default:
-                Main.error(line, "Unexpected character.");
+                if (isDigit(c)) {
+                    number();
+                } else if (isAlpha(c)) {
+                    identifier();
+                } else {
+                    Main.error(line, "Unexpected character.");
+                }
                 break;
         }
+    }
+
+    private boolean isAlphaNumeric(char c) {
+        return isAlpha(c) || isDigit(c);
+    }
+
+    private boolean isAlpha(char c) {
+        return (c >= 'a' && c <= 'x') ||
+                (c >= 'A' && c <= 'Z') ||
+                c == '_';
+    }
+
+    private boolean isDigit(char c) {
+        return c >= '0' && c <= '9';
+    }
+
+    private void identifier() {
+        while (isAlphaNumeric(peek()))
+            advance();
+        
+            String text = source.substring(start, current);
+            TokenType type = keywords.get(text);
+            if (type == null)
+                type = IDENTIFIER;
+            addToken(type);
+    }
+
+    private void number() {
+        while (isDigit(peek()))
+            advance();
+
+        if (peek() == '.' && isDigit(peekNext())) {
+            advance();
+
+            while (isDigit(peek()))
+                advance();
+        }
+
+        addToken(NUMBER,
+                Double.parseDouble(source.substring(start, current)));
+    }
+
+    private void string() {
+        while (peek() != '"' && !isAtEnd()) {
+            if (peek() == '\n')
+                line++;
+            advance();
+        }
+
+        if (isAtEnd()) {
+            Main.error(line, "Unterminated String.");
+            return;
+        }
+
+        advance();
+
+        String value = source.substring(start + 1, current - 1);
+        addToken(STRING, value);
     }
 
     private char peek() {
         if (isAtEnd())
             return '\0';
         return source.charAt(current);
+    }
+
+    private char peekNext() {
+        if (current + 1 >= source.length())
+            return '\0';
+        return source.charAt(current + 1);
     }
 
     private boolean match(char expected) {
