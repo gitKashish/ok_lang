@@ -29,7 +29,9 @@ public class GenerateAST {
         writer.println("import java.util.List;");
         writer.println();
         writer.println("abstract class " + baseName + " {");
-        writer.println("}");
+
+        defineVisitor(writer, baseName, types);
+
         writer.println();
 
         for (String type : types) {
@@ -37,7 +39,20 @@ public class GenerateAST {
             String fields = type.split(":")[1].trim();
             defineType(writer, baseName, className, fields);
         }
+        writer.println();
+        writer.println("    abstract <R> R accept(Visitor<R> visitor);");
+        writer.println("}");
         writer.close();
+    }
+
+    private static void defineVisitor(PrintWriter writer, String baseName, List<String> types) {
+        writer.println("    interface Visitor<R> {");
+
+        for (String type : types) {
+            String typeName = type.split(":")[0].trim();
+            writer.println("    R visit" + typeName + baseName + "(" + typeName + " " + baseName.toLowerCase() + ");");
+        }
+        writer.println("    }");
     }
 
     private static void defineType(PrintWriter writer, String baseName, String className, String fields) {
@@ -50,6 +65,11 @@ public class GenerateAST {
         }
         writer.println("    }");
 
+        writer.println();
+        writer.println("    @Override");
+        writer.println("    <R> R accept(Visitor<R> visitor) {");
+        writer.println("        return visitor.visit" + className + baseName + "(this);");
+        writer.println("    }");
         writer.println();
 
         for (String field : fieldList) {
