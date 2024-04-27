@@ -40,7 +40,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitFunctionStmt(Stmt.Function stmt) {
-        OkFunction function = new OkFunction(stmt);
+        OkFunction function = new OkFunction(stmt, environment);
         environment.define(stmt.name.lexeme, function);
         return null;
     }

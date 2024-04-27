@@ -43,6 +43,7 @@ public class Parser {
         if (match(FOR)) return forStatement();
         if (match(IF)) return ifStatement();
         if (match(PRINT)) return printStatement();
+        if (match(RETURN)) return returnStatement();
         if (match(WHILE)) return whileStatement();
         if (match(LEFT_BRACE)) return new Stmt.Block(block());
 
@@ -117,13 +118,12 @@ public class Parser {
         return new Stmt.Print(value);
     }
 
-    private Stmt returnStatemetn() {
+    private Stmt returnStatement() {
         Token keyword = previous();
         Expr value = null;
         if (!check(SEMICOLON)) {
             value = expression();
         }
-
         consume(SEMICOLON, "Expect ';' after return value.");
         return new Stmt.Return(keyword, value);
     }
@@ -277,8 +277,9 @@ public class Parser {
         if (!check(RIGHT_PAREN)) {
             do {
                 if (arguments.size() >= 255) {
-                    arguments.add(expression());
+                    error(peek(), "Can't have more than 255 arguments.");
                 }
+                arguments.add(expression());
             } while (match(COMMA));
         }
 
