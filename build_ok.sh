@@ -1,1 +1,1 @@
-javac -d ./build/ ./com/interpreter/ok/*.java
+javac -d ./build/ ./com/interpreter/ok/*.java -Xlint:unchecked
