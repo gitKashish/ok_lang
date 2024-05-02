@@ -1,6 +1,6 @@
-# Ok_Lang
+# OkLang
 
-Ok_Lang is an interpreted **Turing Complete** programming language, created as a minor semester project. Ok_Lang is built as a minimalistic language with *decent* Runtime, Parsing and Syntax Error handling.
+OkLang is an interpreted **Turing Complete** programming language, created as a minor semester project. Ok_Lang is built as a minimalistic language with *decent* Runtime, Parsing and Syntax Error handling.
 
 ## Features
 
@@ -62,4 +62,4 @@ fun functionName (argument/s) {
 }
 ```
 
-#### Reference from "Crafting Interpreters" by Rober Nystorm.
+#### Reference from "Crafting Interpreters" by Robert Nystorm.
