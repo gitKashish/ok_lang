@@ -36,32 +36,32 @@ bash ./ok.sh source/code/file/path.ok
 * `print` and `clock` are the only two built-in functions at the moment.
 
 Declaring variable
-```bash
+```js
 // This is a comment.
 // It only works for a single line.
 ```
 
 
 Declaring variable
-```bash
+```js
 var myVariable;
 myVariable = 10 * 20 + (10 - 10);
 ```
 
 Branching Control Flow
-```bash
+```js
 if (expression) { ... }
 ```
 
 Looping Control Flow
-```bash
+```js
 while (expression) { ... }
 
 for (decl; expression; increment/decrement) { ... }
 ```
 
 Function Declaration
-```bash
+```js
 fun functionName (argument/s) {
   ...
   return expression;
