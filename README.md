@@ -1,6 +1,6 @@
-# Ok_Lang
+# OkLang
 
-Ok_Lang is an interpreted **Turing Complete** programming language, created as a minor semester project. Ok_Lang is built as a minimalistic language with *decent* Runtime, Parsing and Syntax Error handling.
+OkLang is an interpreted **Turing Complete** programming language, created as a minor semester project. Ok_Lang is built as a minimalistic language with *decent* Runtime, Parsing and Syntax Error handling.
 
 ## Features
 
@@ -32,34 +32,40 @@ bash ./ok.sh source/code/file/path.ok
 
 ## Basic Syntax
 
-* Currently there is no support for comments in code.
 * Variables are by default initialized to `nil`.
 * `print` and `clock` are the only two built-in functions at the moment.
 
 Declaring variable
-```bash
+```js
+// This is a comment.
+// It only works for a single line.
+```
+
+
+Declaring variable
+```js
 var myVariable;
 myVariable = 10 * 20 + (10 - 10);
 ```
 
 Branching Control Flow
-```bash
+```js
 if (expression) { ... }
 ```
 
 Looping Control Flow
-```bash
+```js
 while (expression) { ... }
 
 for (decl; expression; increment/decrement) { ... }
 ```
 
 Function Declaration
-```bash
+```js
 fun functionName (argument/s) {
   ...
   return expression;
 }
 ```
 
-#### Reference from "Crafting Interpreters" by Rober Nystorm.
+#### Reference from "Crafting Interpreters" by Robert Nystorm.
