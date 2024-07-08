@@ -32,9 +32,15 @@ bash ./ok.sh source/code/file/path.ok
 
 ## Basic Syntax
 
-* Currently there is no support for comments in code.
 * Variables are by default initialized to `nil`.
 * `print` and `clock` are the only two built-in functions at the moment.
+
+Declaring variable
+```bash
+// This is a comment.
+// It only works for a single line.
+```
+
 
 Declaring variable
 ```bash
